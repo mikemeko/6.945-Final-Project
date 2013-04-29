@@ -1,3 +1,6 @@
+
+(define debug-output #t)
+
 #|
 
 This test corresponds to the below example 
@@ -19,12 +22,14 @@ translated into tree form:
 (define rss (make-node "RSS" (list (cons "version" "2.0"))))
 (define channel (make-node "channel" '()))
 (define title (make-node "title" '()))
-(define text (make-node "text" (list (cons "text" "W3Schools Home Page"))))
+(define text (make-node 'non-tag (list (cons "text" "W3Schools Home Page"))))
 
 (define rss-example (cons root (list (cons xml '()) (cons rss (list (cons channel (list (cons title (list (cons text '()))))))))))
 
-(pp "")
-(pp "Testing Tree Traversal")
-(pp (children rss-example))
-
-
+(if debug-output (begin 
+  (pp "")
+  (pp "Testing Tree Traversal")
+  (pp (descendents rss-example))
+  (pp (filter-by-tag (descendents rss-example) "xml"))
+  
+  ))

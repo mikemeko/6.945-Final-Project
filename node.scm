@@ -1,5 +1,15 @@
 (define-record-type node
-    (make-node type list-of-attrs)
+    (make-node tag data)
     node?
-    (type get-type set-type)
-    (list-of-attrs get-attrs set-attrs))
+    (tag get-tag set-tag)
+    (data get-data set-data))
+
+
+; Takes in node
+; Returns #t if node represents a tag and #f
+; if node represents loose data
+(define (any-tag? node)
+  (not (eq? (get-tag node) 'non-tag))
+)
+
+

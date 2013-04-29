@@ -9,4 +9,6 @@
 (load "node.scm")
 (load "parser.scm")
 (load "tokenize.scm")
+(load "traverse.scm")
 
+(load "test-traverse.scm")

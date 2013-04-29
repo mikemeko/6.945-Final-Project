@@ -10,3 +10,4 @@
 (load "parser.scm")
 (load "tokenize.scm")
 
+(load "test-traverse.scm")

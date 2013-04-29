@@ -1,3 +1,11 @@
+; ****************************************************
+; NOTES ON TREE REPRESENTATION:
+
+; Nodes are represented as: (cons record-type (list child1 child2)
+; where child where child1 and child2 are cons pairs
+
+; ****************************************************
+
 
 ; METHODS DEPENDENT STRUCTURE OF TREE
 

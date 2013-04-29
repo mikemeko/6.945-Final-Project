@@ -1,3 +1,12 @@
+
+;;; Strips off the auxillary strings of a tag (including the outer brackets/slashes
+;;; Assumes the tag is of valid XML syntax
+(define (get-element tag)
+    (let ((left (if (string-prefix? "</" tag) 2 1))
+          (right (if (string-suffix? "/>" tag) (- (string-length tag) 2) (- (string-length tag) 1))))
+        (substring tag left right)))
+
+
 ;; XML Tokenizer
 
 ;;; tokenizes the given |text| into tokens, where a token is either a block of

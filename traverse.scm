@@ -1,16 +1,18 @@
 
 ; METHODS DEPENDENT STRUCTURE OF TREE
 
-; takes in a given tree section
+; takes in a given tree section (list of lists and nodes)
 ; returns list of tree sections with roots that 
 ; are children of given tree section root
 (define children (node)
 
 )
 
-; takes in a given a given tree section and type
-; returns list of tree sections with roots that
-; match that type
+; takes in a given a given tree section (list of lists and nodes)
+; and type returns either 
+; a) list of tree sections with roots that
+; match that type if one exists
+; b) '*none if none exist
 (define get (node type)
 
 )
@@ -48,16 +50,4 @@
   ; wrap around define-structure
 
 )
-
-
-(has? r "xml") 
--> returns #t
-(get r "xml")
--> returns a list of the nodes with the value "xml" and children "version," etc
-(children r)
--> returns a list of all children
-(parent r)
--> *the-nothing*
-(value r)
-"root"
 

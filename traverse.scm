@@ -12,6 +12,7 @@
 ; takes in a given tree segment (list of lists and nodes)
 ; returns list of tree sections with roots that 
 ; are children of given tree section root
+; returns '() if none exist
 (define (children tree-segment)
   ; check its in proper format
   (cdr tree-segment)
@@ -21,7 +22,7 @@
 ; and type returns either 
 ; a) list of tree sections with roots that
 ; match that type if one exists
-; b) '*none if none exist
+; b) '() if none exist
 (define (get tree-segment type)
   '*nothing*
 )

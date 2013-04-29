@@ -1,3 +1,6 @@
+
+(define debug-output #t)
+
 #|
 
 This test corresponds to the below example 
@@ -23,7 +26,10 @@ translated into tree form:
 
 (define rss-example (cons root (list (cons xml '()) (cons rss (list (cons channel (list (cons title (list (cons text '()))))))))))
 
-(pp "")
-(pp "Testing Tree Traversal")
-(pp (descendents rss-example))
-(pp (filter-by-tag (descendents rss-example) "xml"))
+(if debug-output (begin 
+  (pp "")
+  (pp "Testing Tree Traversal")
+  (pp (descendents rss-example))
+  (pp (filter-by-tag (descendents rss-example) "xml"))
+  
+  ))

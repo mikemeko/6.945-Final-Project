@@ -4,5 +4,9 @@
       (extend-top-level-environment system-global-environment))
 (ge user-initial-environment)
 
+(load "utils.scm")
+(load "io.scm")
 (load "node.scm")
 (load "parser.scm")
+(load "tokenize.scm")
+

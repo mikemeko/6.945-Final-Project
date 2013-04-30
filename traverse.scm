@@ -9,6 +9,7 @@
 ; corresponding to attributes
 ; Non-tags have corresponding text data in the same
 ; form (e.g. (cons text "Hello World!"))
+; TODO(mikemeko, pwoods): text -> 'text ?
 
 ; ****************************************************
 

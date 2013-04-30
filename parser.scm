@@ -57,7 +57,46 @@
         (get-type j)))
     (start)
     (cons type attributes)))
-  
+
+
+;;; Creates a tree from a list to tokens as created by the tokenizer
+
+;; Examples
+#|
+(make-tree '("<p a=1>" "hello" "</p>"))
+>(#[node 24] (#[node 25] #[node 26])) 
+
+(get-tag (caadr (make-tree '("<p a=1>" "hello" "</p>")))) 
+> "p"
+|#
+(define (make-tree tokens)
+    (define (make-tree-helper stack tokens)
+        (if (= (length tokens) 0)
+            (car stack) ;TODO (marx) make sure stack has one element
+            (let ((first-token (car tokens)))
+                (cond ((start-tag? first-token)
+                            (let* ((parameters (get-type-and-attributes first-token))
+                                   (new-node (make-node (car parameters) (cdr parameters))))
+                                       (make-tree-helper (append (list (list new-node)) stack) (cdr tokens))))
+                      ((end-tag? first-token)
+                            (let* ((first-subtree (car stack));TODO (marx) add assertions for matching tags
+                                   (second-subtree (cadr stack))
+                                   (first-second-combined (append second-subtree (list first-subtree))))
+                                        (make-tree-helper (append (list first-second-combined) (cddr stack)) (cdr tokens))))
+                      ((self-terminating-tag? first-token)
+                            (let* ((parameters (get-type-and-attributes first-token))
+                                   (new-node (make-node (car parameters) (cdr parameters)))
+                                   (first-subtree (car stack))
+                                   (new-first-combined (append first-subtree (list new-node))))
+                                        (make-tree-helper (append (list new-first-combined) (cdr stack)) (cdr tokens))))
+                      (else
+                            (let* ((new-node (make-node 'non-tag (list (cons 'test first-token))))
+                                   (first-subtree (car stack))
+                                   (new-first-combined (append first-subtree (list new-node))))
+                                        (make-tree-helper (append (list new-first-combined) (cdr stack)) (cdr tokens))))))))
+    (let ((root (make-node '*the-root* '())))
+        (make-tree-helper (list (list root)) tokens )))
+
 ;;; Takes in a tag token and returns a node object
 ;;; Assumes that token is a a start tag or a self-terminating tag
 #|

@@ -64,16 +64,19 @@
 ; CURRENTLY MODELED AS PUBLIC
 
 (define (tag segment)
-  '*nothing*
+  (get-tag (car segment))
 )
 
 (define (change-tag segment new-tag)
-  '*nothing*
+  (set-tag (car segment) new-tag)
 )
 
 ; returns list of attributes (not values)
 (define (attributes segment)
-  '*nothing*
+
+  ; TODO(pauL): add check that makes sure its data is attributes
+
+  (map (lambda (x) (car x)) (get-data (car segment)))
 )
 
 (define (get-attribute segment attribute)

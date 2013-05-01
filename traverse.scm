@@ -15,34 +15,45 @@
 
 ; METHODS DEPENDENT STRUCTURE OF TREE
 
-; Takes in a given tree segment (list of lists and nodes)
+; Takes in a tree segment (list of lists and nodes)
 ; returns list of tree sections with roots that 
 ; are children of given tree section root
 ; Returns '() if none exist
 
-(define (descendents tree-segment)
+(define (checkRep segment)
+  #t 
+)
+
+(define (descendents segment)
   ; quick, non-comprehensive check of input format
-  (assert (list? tree-segment) "input should be a tree segment")
+  (assert (list? segment) "input should be a tree segment")
   (define (list-or-node? x)
     (assert (or (node? x) (list? x)) "input should be a tree segment") 
   )
-  (for-each list-or-node? tree-segment)
+  (for-each list-or-node? segment)
 
-  ; return children of tree-segment
-  (cdr tree-segment)
+  ; return children of segment
+  (cdr segment)
 )
 
-; Takes in a given a given tree segment (list of lists and nodes)
-; and tag
+; Takes in a list of tree segments and a tag
 ; Returns either 
-; a) list of tree sections with roots that
+; a) list of tree segments with roots that
 ; match that tag if one exists
 ; b) '() if none exist
-(define (filter-by-tag tree-segment tag)
+(define (filter-list-by-tag segments tag)
 
-  ; DOESN'T YET WORK PROPERLY
+  (define (compare-tag x)
+    (equal? (get-tag (car x)) tag)
+  )
+  (list-transform-positive segments compare-tag)
+)
 
-  (list-transform-positive tree-segment
-    (lambda(x) (eq? (get-tag (car x)) tag)))
+; Takes in a tree segment and tag
+; Returns list of tree segments whose roots
+; are children with the given tag
+; Returns '() if none exist
+(define (filter-descendents-by-tag segment tag)
+  (filter-list-by-tag (descendents segment) tag) 
 )
 

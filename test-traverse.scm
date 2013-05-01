@@ -19,7 +19,7 @@ translated into tree form:
 
 (define root (make-node '*nothing* '()))
 (define xml (make-node "xml" (list (cons "version" "1.0") (cons "encoding" "ISO-8859-1"))))  ; temp
-(define rss (make-node "RSS" (list (cons "version" "2.0"))))
+(define rss (make-node "rss" (list (cons "version" "2.0"))))
 (define channel (make-node "channel" '()))
 (define title (make-node "title" '()))
 (define text (make-node 'non-tag (list (cons "text" "W3Schools Home Page"))))
@@ -30,6 +30,9 @@ translated into tree form:
   (pp "")
   (pp "Testing Tree Traversal")
   (pp (descendents rss-example))
-  (pp (filter-by-tag (descendents rss-example) "xml"))
+  (pp (filter-list-by-tag (list rss-example) '*nothing*))
+  (pp (filter-descendents-by-tag rss-example "rss"))
+  (pp (filter-descendents-by-tag rss-example "xml"))
+
   
   ))

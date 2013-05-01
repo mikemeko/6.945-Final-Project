@@ -89,17 +89,15 @@
 )
 
 
-; Takes in a tree segment (list of lists and nodes)
-; returns list of tree sections with roots that 
-; are children of given tree segment root
-; Returns '() if none exist
-
+; Takes in tree segment
+; Returns how many children it has
 (define (count segment)
   (length (cdr segment))
 )
 
+; Takes in a tree segment and pos
+; Returns pos'th child segment
 (define (walk segment pos)
-  (checkRep segment)
   (list-ref (cdr segment) pos)
 )
 

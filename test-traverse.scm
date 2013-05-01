@@ -30,9 +30,7 @@ translated into tree form:
   (pp "")
   (pp "Testing Tree Traversal")
   (pp (descendents rss-example))
-  (pp (filter-list-by-tag (list rss-example) '*nothing*))
-  (pp (filter-descendents-by-tag rss-example "rss"))
-  (pp (filter-descendents-by-tag rss-example "xml"))
-
-  
+  (pp (get rss-example "rss" 0))
+  (pp (first rss-example "rss"))
+  (pp (count rss-example "rss"))
   ))

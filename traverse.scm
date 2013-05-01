@@ -49,7 +49,7 @@
         (equal? (get-tag (car x)) tag)
       )
       (list-transform-positive segments compare-tag))
-    (filter-list-by-tag (descendents segment) tag))
+    (filter-list-by-tag (cdr segment) tag))
 
 ; checks tree segment representation
 (define (checkRep segment)
@@ -90,32 +90,28 @@
 ; returns list of tree sections with roots that 
 ; are children of given tree segment root
 ; Returns '() if none exist
-(define (descendents segment)
 
-  ; TODO(pauL): CURRENTLY DOES NOT FIT MODEL, CHANGE TO WALK?
+(define (count segment)
+  (length (cdr segment))
+)
 
+(define (walk segment pos)
   (checkRep segment)
-  (cdr segment)
+  (list-ref (cdr segment) pos)
 )
 
 ; Takes in tree segment and tag
 ; Returns how many child segments that has a root
 ; of the given tag
-(define (count segment tag)
+(define (count-tag segment tag)
   (let ((filtered-descendents (filter-descendents-by-tag segment tag)))
     (length filtered-descendents)))
-
-; Takes in tree segment and tag
-; Returns the first child segment that has a root
-; of the given tag
-(define (first segment tag)
-  (get segment tag 0))
 
 ; Takes in tree segment, tag, and position
 ; Returns the pos'th child segment that has a root
 ; of the given tag
 ; (i.e. (get "head" html 0) (get "channel" rss 0)
-(define (get segment tag pos)
+(define (walk-by-tag segment tag pos)
   (let ((filtered-descendents (filter-descendents-by-tag segment tag)))
     (assert (> (length filtered-descendents) pos) "out-of-range")
         (list-ref filtered-descendents pos)))

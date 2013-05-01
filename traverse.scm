@@ -8,8 +8,7 @@
 ; Tags have data that are a lists of cons pairs
 ; corresponding to attributes
 ; Non-tags have corresponding text data in the same
-; form (e.g. (cons text "Hello World!"))
-; TODO(mikemeko, pwoods): text -> 'text ?
+; form (e.g. (cons "text" "Hello World!"))
 
 ; ****************************************************
 

@@ -52,7 +52,7 @@
     (filter-list-by-tag (cdr segment) tag))
 
 ; checks tree segment representation
-(define (checkRep segment)
+(define (check-rep segment)
   ; currently quick, very non-comprehensive check of input format
   (assert (list? segment) "input should be a tree segment")
   (define (list-or-node? x)

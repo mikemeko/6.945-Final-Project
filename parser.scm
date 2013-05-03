@@ -60,15 +60,6 @@
 
 
 ;;; Creates a tree from a list to tokens as created by the tokenizer
-
-;; Examples
-#|
-(make-tree '("<p a=1>" "hello" "</p>"))
->(#[node 24] (#[node 25] #[node 26])) 
-
-(get-tag (caadr (make-tree '("<p a=1>" "hello" "</p>")))) 
-> "p"
-|#
 (define (make-tree tokens)
     (define (make-tree-helper stack tokens)
         (if (= (length tokens) 0)
@@ -90,46 +81,19 @@
                                    (new-first-combined (append first-subtree (list new-node))))
                                         (make-tree-helper (append (list new-first-combined) (cdr stack)) (cdr tokens))))
                       (else
-                            (let* ((new-node (make-node 'non-tag (list (cons 'test first-token))))
-                                   (first-subtree (car stack))
+                            (let* ((new-node (make-node 'non-tag (list (cons 'text first-token))))
+				   (first-subtree (car stack))
                                    (new-first-combined (append first-subtree (list new-node))))
                                         (make-tree-helper (append (list new-first-combined) (cdr stack)) (cdr tokens))))))))
     (let ((root (make-node '*the-root* '())))
         (make-tree-helper (list (list root)) tokens )))
 
-;;; Takes in a tag token and returns a node object
-;;; Assumes that token is a a start tag or a self-terminating tag
+;; Examples
 #|
-(define (get-node token)
-    (define (get-type str)
-        (substring str 1 (string-find-next-char str #\ )))
-    (define (get-attributes str attributes)
-        (let ((first-equal (string-find-next-char str #\=)))
-            (if (not first-equal)
-                attributes
-            (begin 
-            (display first-equal)
-            (newline)
-            (display str)
-            (newline)
-            (let* ((key (substring str 0 first-equal))
-                 (value (substring str first-equal (string-find-next-char-in-set (string-tail str (string-length key)) (char-set #\\ #\ )))))
-                    (begin 
-                        (append! attributes (cons key value))
-                        (get-attributes (string-tail str (+ (string-length key) (string-length value))) attributes)))))))
-    (display (get-attributes token '())))
-    ;(let* ((type (get-type token))
-    ;       (attributes (get-attributes
+(make-tree '("<p a=1>" "hello" "</p>"))
+>(#[node 24] (#[node 25] #[node 26])) 
 
-    (make-node (get-type token) (get-attributes token))
+(get-tag (caadr (make-tree '("<p a=1>" "hello" "</p>")))) 
+> "p"
 |#
-;;; Takes in a list of tokens and parses them, returning a tree
-#|
-(define (parser tokens)
-    (define (parser-helper tokens stack tree)
-        (let (first-token (car tokens))
-            (cond ((start-tag? first-token)
-                   (append! stack (make-
 
-    (parser-helper tokens '() '()))
-|#

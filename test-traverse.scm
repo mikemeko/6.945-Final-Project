@@ -36,10 +36,11 @@ translated into tree form:
   (pp (count-tag rss-example "rss"))
   (pp (walk-by-tag rss-example "rss" 0))
 
-  (change-tag (walk rss-example 0) "hi")
-  (pp (get-tag rss)) ; oh fuck!? 
-  ; (maybe change to a model where the tree is constant and the user has a pointer
-  ; that walks through it?)
+  (pp (attributes (walk-by-tag rss-example "rss" 0)))
+  (pp (get-attribute (walk-by-tag rss-example "rss" 0) "version"))
+
+  (change-tag (walk-by-tag rss-example "rss" 0) "hi")
+  (pp (tag (walk rss-example 0)))
   (pp (tag (walk rss-example 0)))
   (pp (attributes (walk rss-example 0)))
 

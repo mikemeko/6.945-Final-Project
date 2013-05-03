@@ -80,12 +80,18 @@
 )
 
 (define (get-attribute segment attribute)
-  '*nothing*
+  
+  ; TODO(pauL): add check to make sure attribute exists
+  (cdr (find (lambda(x) (equal? (car x) attribute)) (get-data (car segment))))
+
 )
 
 
 (define (change-attribute segment attribute new-value)
+
+  ; TODO(pauL): add check to make sure attribute exists
   '*nothing*
+
 )
 
 

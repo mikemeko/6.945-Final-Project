@@ -17,9 +17,9 @@ translated into tree form:
 |#
 
 
-(define root (make-node '*nothing* '()))
-(define xml (make-node "xml" (list (cons "version" "1.0") (cons "encoding" "ISO-8859-1"))))  ; temp
-(define rss (make-node "rss" (list (cons "version" "2.0"))))
+(define root (make-node '*the-root* '()))
+(define xml (make-node "xml" (list (cons "version" "\"1.0\"") (cons "encoding" "\"ISO-8859-1\""))))  ; temp
+(define rss (make-node "rss" (list (cons "version" "\"2.0\""))))
 (define channel (make-node "channel" '()))
 (define title (make-node "title" '()))
 (define text (make-node 'non-tag (list (cons "text" "W3Schools Home Page"))))
@@ -29,6 +29,8 @@ translated into tree form:
 (if debug-output (begin 
   (pp "")
   (pp "Testing Tree Traversal")
+
+  #|
   (pp rss-example)
   (pp (count rss-example))
   (pp (walk rss-example 0))
@@ -43,5 +45,6 @@ translated into tree form:
   (pp (tag (walk rss-example 0)))
   (pp (tag (walk rss-example 0)))
   (pp (attributes (walk rss-example 0)))
+  |#
 
   ))

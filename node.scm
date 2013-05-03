@@ -9,7 +9,7 @@
 ; Returns #t if node represents a tag and #f
 ; if node represents loose data
 (define (any-tag? node)
-  (not (eq? (get-tag node) 'non-tag))
-)
+  (not (or (eq? (get-tag node) 'non-tag)
+           (eq? (get-tag node) '*the-root*))))
 
 

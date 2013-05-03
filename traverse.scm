@@ -94,7 +94,6 @@
 
 )
 
-
 ; Takes in tree segment
 ; Returns how many children it has
 (define (count segment)
@@ -106,6 +105,13 @@
 (define (walk segment pos)
   (list-ref (cdr segment) pos)
 )
+
+; Takes in a tree segment and pos
+; Returns list of child segments
+(define (children segment)
+  (cdr segment)
+)
+
 
 ; Takes in tree segment and tag
 ; Returns how many child segments that has a root
@@ -122,3 +128,54 @@
   (let ((filtered-descendents (filter-descendents-by-tag segment tag)))
     (assert (> (length filtered-descendents) pos) "out-of-range")
         (list-ref filtered-descendents pos)))
+
+
+(define (stringify-attribute segment attribute)
+  (string-append attribute "=" (get-attribute segment attribute))
+)
+
+(define (stringify-attributes segment)
+  (apply string-append (map 
+    (lambda(x) (string-append " " (stringify-attribute segment x))) 
+    (attributes segment)))
+)
+
+(define (stringify-opening segment)
+  (string-append "<" (tag segment) (stringify-attributes segment) ">")
+)
+
+(define (stringify-closing segment)
+  (string-append "</" (tag segment)  ">")
+)
+
+(define (is-tag? segment)
+  (any-tag? (car segment)))
+
+(define (is-root? segment)
+  (equal? (tag segment) '*the-root*))
+
+(define (get-text segment)
+  ; TODO(pauL): Check to make sure data 
+    (cdr (find (lambda(x) (equal? (car x) "text")) (get-data (car segment)))))
+
+
+(define (stringify-children segment)
+  (if (eq? (count segment) 0)
+      ""
+      (apply string-append 
+        (map (lambda (x) (stringify x)) (children segment))))
+)
+
+(define (stringify segment)
+  (cond ((is-tag? segment) (string-append 
+            (stringify-opening segment)
+            (stringify-children segment) 
+            (stringify-closing segment)))
+        ((is-root? segment) 
+            (stringify-children segment))
+        (else (get-text segment)))
+)
+
+(define (write-tree segment filename)
+  (write-to-file filename (stringify segment)))
+

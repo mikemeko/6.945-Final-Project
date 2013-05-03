@@ -73,9 +73,7 @@
 
 ; returns list of attributes (not values)
 (define (attributes segment)
-
-  ; TODO(pauL): add check that makes sure its data is attributes
-
+  (assert (tag? segment) "only tags have attributes")
   (map (lambda (x) (car x)) (get-data (car segment)))
 )
 
@@ -131,32 +129,34 @@
 
 
 (define (stringify-attribute segment attribute)
-  (string-append attribute "=" (get-attribute segment attribute))
-)
+  (string-append attribute "=" (get-attribute segment attribute)))
 
 (define (stringify-attributes segment)
   (apply string-append (map 
     (lambda(x) (string-append " " (stringify-attribute segment x))) 
-    (attributes segment)))
-)
+    (attributes segment))))
 
 (define (stringify-opening segment)
-  (string-append "<" (tag segment) (stringify-attributes segment) ">")
-)
+  (string-append "<" (tag segment) (stringify-attributes segment) ">"))
 
 (define (stringify-closing segment)
-  (string-append "</" (tag segment)  ">")
-)
+  (string-append "</" (tag segment)  ">"))
 
-(define (is-tag? segment)
-  (any-tag? (car segment)))
+(define (tag? segment)
+  (not (or (equal? (tag segment) '*the-root*)
+  (equal? (tag segment) 'non-tag)))
+)
 
 (define (is-root? segment)
   (equal? (tag segment) '*the-root*))
 
+(define (text? segment)
+  (equal? (tag segment) 'non-tag)
+)
+
 (define (get-text segment)
-  ; TODO(pauL): Check to make sure data 
-    (cdr (find (lambda(x) (equal? (car x) "text")) (get-data (car segment)))))
+  (assert (text? segment) "not at text node")
+  (cdr (find (lambda(x) (equal? (car x) "text")) (get-data (car segment)))))
 
 
 (define (stringify-children segment)
@@ -167,7 +167,7 @@
 )
 
 (define (stringify segment)
-  (cond ((is-tag? segment) (string-append 
+  (cond ((tag? segment) (string-append 
             (stringify-opening segment)
             (stringify-children segment) 
             (stringify-closing segment)))

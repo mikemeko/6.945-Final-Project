@@ -83,7 +83,7 @@
                       (else
                             (let* ((new-node (make-node 'non-tag (list (cons 'text first-token))))
 				   (first-subtree (car stack))
-                                   (new-first-combined (append first-subtree (list new-node))))
+                                   (new-first-combined (append first-subtree (list (list new-node)))))
                                         (make-tree-helper (append (list new-first-combined) (cdr stack)) (cdr tokens))))))))
     (let ((root (make-node '*the-root* '())))
         (make-tree-helper (list (list root)) tokens )))

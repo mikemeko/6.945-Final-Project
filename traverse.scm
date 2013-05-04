@@ -212,10 +212,8 @@
 ; Takes in tree segment
 ; Returns children as string of XML
 (define (stringify-children segment)
-  (if (eq? (count segment) 0)
-      ""
-      (apply string-append 
-        (map (lambda (x) (stringify x)) (children segment)))))
+  (apply string-append 
+      (map (lambda (x) (stringify x)) (children segment))))
 
 ; Takes in tree segment
 ; Returns tree segment as string of XML

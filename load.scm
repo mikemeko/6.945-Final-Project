@@ -4,6 +4,7 @@
       (extend-top-level-environment system-global-environment))
 (ge user-initial-environment)
 
+(load "global.scm")
 (load "utils.scm")
 (load "io.scm")
 (load "node.scm")

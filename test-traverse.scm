@@ -1,6 +1,3 @@
-
-(define debug-output #t)
-
 #|
 
 This test corresponds to the below example 
@@ -16,7 +13,6 @@ translated into tree form:
 </rss>
 |#
 
-
 (define root (make-node '*the-root* '()))
 (define xml (make-node "xml" (list (cons "version" "\"1.0\"") (cons "encoding" "\"ISO-8859-1\""))))  ; temp
 (define rss (make-node "rss" (list (cons "version" "\"2.0\""))))
@@ -26,7 +22,7 @@ translated into tree form:
 
 (define rss-example (cons root (list (cons xml '()) (cons rss (list (cons channel (list (cons title (list (cons text '()))))))))))
 
-(if debug-output (begin 
+(if RUN-TESTS (begin
   (pp "")
   (pp "Testing Tree Traversal")
 
@@ -53,4 +49,4 @@ translated into tree form:
   ;(modify-tag (walk-by-tag rss-example "rss" 0) "hi")
   (pp (tag (walk rss-example 0)))
   (pp (attributes (walk rss-example 0)))
-  ))
+))

@@ -1,1 +1,0 @@
-(define RUN-TESTS #t)

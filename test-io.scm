@@ -2,3 +2,4 @@
 (define root (make-tree (tokenize (read-file "example.xml"))))
 ;(pp (stringify root))
 (pp (stringify rss-example))
+; (write-tree rss-example "test-output.txt")

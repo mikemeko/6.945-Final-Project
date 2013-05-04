@@ -165,16 +165,18 @@
 ; ************************
 
 ; Takes in two tree segments
-; As one as child of other
+; Adds one as child of other
 (define (add segment child)
-  '*nothing*
+  (set-cdr! segment (append (cdr segment) (list child)))
+  segment
 )
 
 ; Takes in tree segment and integer
-; Deletes pos'th child
+; Returns tree segment with pos'th child deleted
 (define (delete segment pos)
-  ; Check that pos'th child exists
-  '*nothing*
+  (assert (< pos (count segment)) "out of range")
+  (set-cdr! segment (delete! (list-ref (cdr segment) pos) (cdr segment)))
+  segment
 )
 
 ; ************************

@@ -24,7 +24,6 @@
 ;
 ; TODO(pauL): 
 ;   -inconsistent naming?
-;   -Implement adding and deleting children
 
 ; ****************************************************
 

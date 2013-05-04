@@ -17,5 +17,5 @@
 (define (write-to-file file-name text)
   (call-with-output-file file-name
     (lambda (output-port)
-      (write text output-port))))
+      (display text output-port))))
 

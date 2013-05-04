@@ -1,3 +1,5 @@
+(define root (make-tree (tokenize (read-file "example.xml"))))
+
 (if RUN-TESTS (begin
  ;RSS EXAMPLE TEST Example Test
  (assert (equal? (stringify rss-example) 
@@ -5,7 +7,6 @@
   "Fails RSS Example")
 
 ; END-TO-END TEST
-  (define root (make-tree (tokenize (read-file "example.xml"))))
   (pp (stringify root))
   (write-tree root "test-output.txt")
 

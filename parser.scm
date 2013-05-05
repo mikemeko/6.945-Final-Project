@@ -60,6 +60,7 @@
 
 
 ;;; Creates a tree from a list to tokens as created by the tokenizer
+#|
 (define (make-tree tokens)
     (define (make-tree-helper stack tokens)
         (if (= (length tokens) 0)
@@ -82,11 +83,51 @@
                                         (make-tree-helper (append (list new-first-combined) (cdr stack)) (cdr tokens))))
                       (else
                             (let* ((new-node (make-node 'non-tag (list (cons "text" first-token))))
-				   (first-subtree (car stack))
+                                   (first-subtree (car stack))
                                    (new-first-combined (append first-subtree (list (list new-node)))))
                                         (make-tree-helper (append (list new-first-combined) (cdr stack)) (cdr tokens))))))))
     (let ((root (make-node '*the-root* '())))
         (make-tree-helper (list (list root)) tokens )))
+|#
+(define (make-tree tokens)
+    (define (make-tree-helper stack tokens)
+        (pp "STACK")
+        (pp stack)
+        (if (= (length tokens) 0)
+            (car stack) ;TODO (marx) make sure stack has one element
+            (let ((first-token (car tokens)))
+                (pp "TOKEN")
+                (pp first-token)
+                (cond ((start-tag? first-token)
+                            (let* ((parameters (get-type-and-attributes first-token))
+                                   (new-node (new-segment (make-node (car parameters) (cdr parameters)) '())))
+                                       (make-tree-helper (append stack (list new-node)) (cdr tokens))))
+                      ((end-tag? first-token)
+                            (let* ((first-subtree (list-ref stack (- (length stack) 1)));TODO (marx) add assertions for matching tag
+                                   (second-subtree (list-ref stack (- (length stack) 2))))
+                                       (begin (add-child second-subtree first-subtree)
+                                            (make-tree-helper (append (list-head stack (- (length stack) 2)) (list second-subtree)) (cdr tokens)))))
+                      ((self-terminating-tag? first-token)
+                            (let* ((parameters (get-type-and-attributes first-token))
+                                   (new-node (new-segment (make-node (car parameters) (cdr parameters)) '()))
+                                   (first-subtree (list-ref stack (- (length stack) 1))))
+                                       (begin (set-children first-subtree (append (children first-subtree) (list new-node)))
+                                            (make-tree-helper (append (list-head stack (- (length stack) 1)) (list first-subtree)) (cdr tokens)))))
+                      (else
+                            (let* ((new-node (new-segment (make-node 'non-tag (list (cons "text" first-token))) '()))
+                                   (first-subtree (list-ref stack (- (length stack) 1))))
+                                       (begin (set-children first-subtree (append (children first-subtree) (list new-node)))
+                                        (make-tree-helper (append (list-head stack (- (length stack) 1)) (list first-subtree)) (cdr tokens)))))))))
+    (let ((root (make-node '*the-root* '())))
+        (make-tree-helper (list (new-segment root '())) tokens )))
+;; Examples
+#|
+(make-tree '("<p a=1>" "hello" "</p>"))
+>(#[node 24] (#[node 25] #[node 26])) 
+
+(get-tag (caadr (make-tree '("<p a=1>" "hello" "</p>")))) 
+> "p"
+|#
 
 ;; Examples
 #|

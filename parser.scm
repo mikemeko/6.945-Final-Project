@@ -60,13 +60,9 @@
 
 (define (make-tree tokens)
     (define (make-tree-helper stack tokens)
-        (pp "STACK")
-        (pp stack)
         (if (= (length tokens) 0)
             (car stack) ;TODO (marx) make sure stack has one element
             (let ((first-token (car tokens)))
-                (pp "TOKEN")
-                (pp first-token)
                 (cond ((start-tag? first-token)
                             (let* ((parameters (get-type-and-attributes first-token))
                                    (new-node (new-segment (make-node (car parameters) (cdr parameters)) '())))

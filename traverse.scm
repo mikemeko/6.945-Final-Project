@@ -161,7 +161,7 @@
 ; Takes in children
 ; Returns root tree segment with those children
 (define (new-root children)
- (new-segment (make-node '*the-root* '()))
+ (new-segment (make-node '*the-root* '()) '())
 )
 
 ; Takes in tag, attributes, and children

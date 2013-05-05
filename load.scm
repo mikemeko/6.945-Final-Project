@@ -8,6 +8,7 @@
 (load "io.scm")
 (load "node.scm")
 (load "structure.scm")
+(load "structure-extensions.scm")
 (load "parser.scm")
 (load "tokenize.scm")
 (load "traverse.scm")

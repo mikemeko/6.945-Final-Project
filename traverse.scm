@@ -47,14 +47,6 @@
       (list-transform-positive segments compare-tag))
     (filter-list-by-tag (children segment) tag))
 
-; Checks tree segment representation
-(define (check-rep segment)
-  ; currently quick, very non-comprehensive check of input format
-  (assert (list? segment) "input should be a tree segment")
-  (define (list-or-node? x)
-    (assert (or (node? x) (list? x)) "input should be a tree segment"))
-  (for-each list-or-node? segment))
-
 ; *****************
 ; NODE TYPES
 ; ******************
@@ -174,25 +166,6 @@
 ; Returns text tree segment 
 (define (new-text text)
   (new-segment (make-node 'non-tag (cons "list" text)) '())
-)
-
-; ************************
-; MODIFYING TREE STRUCTURE
-; ************************
-
-; Takes in two tree segments
-; Adds one as child of other
-(define (add segment child)
-  (set-children segment ((append (children segment) (list child))))
-  segment
-)
-
-; Takes in tree segment and integer
-; Returns tree segment with pos'th child deleted
-(define (delete segment pos)
-  (assert (< pos (count segment)) "out of range")
-  (set-children segment (delete (list-ref (children segment) pos) (children segment)))
-  segment
 )
 
 ; ************************

@@ -43,9 +43,9 @@
     ; b) '() if none exist
     (define (filter-list-by-tag segments tag)
       (define (compare-tag x)
-        (equal? (get-tag (car x)) tag))
+        (equal? (get-tag (current x)) tag))
       (list-transform-positive segments compare-tag))
-    (filter-list-by-tag (cdr segment) tag))
+    (filter-list-by-tag (children segment) tag))
 
 ; Checks tree segment representation
 (define (check-rep segment)
@@ -76,38 +76,38 @@
 
 ; Takes in tree segment
 ; Returns its tag
-(define (tag segment) (get-tag (car segment)))
+(define (tag segment) (get-tag (current segment)))
 
 ; Takes in tree segment and tag
 ; Sets tag to specified tag
 (define (modify-tag segment new-tag)
-  (set-tag (car segment) new-tag))
+  (set-tag (current segment) new-tag))
 
 ; Takes in tree segment
 ; Returns a list of its attributes (not values) its root
 (define (attributes segment)
   (assert (tag? segment) "only tags have attributes")
-  (map (lambda (x) (car x)) (get-data (car segment))))
+  (map (lambda (x) (current x)) (get-data (current segment))))
 
 ; Takes in tree segment and attributes
 ; Returns #t if tree segment root has that attribute
 (define (attribute? segment attribute)
-  (if (find (lambda(x) (equal? (car x) attribute)) (get-data (car segment))) #t #f))
+  (if (find (lambda(x) (equal? (current x) attribute)) (get-data (current segment))) #t #f))
 
 ; Takes in tree segment and attribute
 ; Returns value of specified attribute 
 (define (get-attribute segment attribute)
   (assert (tag? segment) "only tags have attributes")
   (assert (attribute? segment attribute) "doesn't have attribute")
-  (cdr (find (lambda(x) (equal? (car x) attribute)) (get-data (car segment)))))
+  (cdr (find (lambda(x) (equal? (current x) attribute)) (get-data (current segment)))))
 
 ; Removes attribute if it exists
 ; Does nothing otherwise
 (define (remove-attribute segment attribute)
   (if (attribute? segment attribute)
-  (set-data (car segment)
-    (remove (lambda(x) (equal? (car x) attribute)) 
-      (get-data (car segment))))))
+  (set-data (current segment)
+    (remove (lambda(x) (equal? (current x) attribute)) 
+      (get-data (current segment))))))
 
 ; Takes in tree segment, attribute, and value
 ; Either adds or modifies that particular attribute to the new value
@@ -115,19 +115,19 @@
 ; but that doesn't matter (according to the XML spec)
 (define (set-attribute segment attribute new-value)
   (remove-attribute segment attribute)
-  (set-data (car segment) (append (get-data (car segment)) 
+  (set-data (current segment) (append (get-data (current segment)) 
       (list (cons attribute new-value)))))
 
 ; Takes in a tree segment whose root is a text node
 ; Returns text
 (define (get-text segment)
   (assert (text? segment) "not at text node")
-  (cdr (find (lambda(x) (equal? (car x) "text")) (get-data (car segment)))))
+  (cdr (find (lambda(x) (equal? (current x) "text")) (get-data (current segment)))))
 
 ; Takes in tree segment
 ; Returns how many children it has
 (define (count segment)
-  (length (cdr segment)))
+  (length (children segment)))
 
 ; ************************************
 ; TREE TRAVERSAL
@@ -136,12 +136,7 @@
 ; Takes in a tree segment and pos
 ; Returns pos'th child segment
 (define (walk segment pos)
-  (list-ref (cdr segment) pos))
-
-; Takes in a tree segment and pos
-; Returns list of child segments
-(define (children segment)
-  (cdr segment))
+  (list-ref (children segment) pos))
 
 ; Takes in tree segment and tag
 ; Returns how many child segments that has a root
@@ -166,7 +161,7 @@
 ; Takes in two tree segments
 ; Adds one as child of other
 (define (add segment child)
-  (set-cdr! segment (append (cdr segment) (list child)))
+  (set-children segment ((append (children segment) (list child))))
   segment
 )
 
@@ -174,7 +169,7 @@
 ; Returns tree segment with pos'th child deleted
 (define (delete segment pos)
   (assert (< pos (count segment)) "out of range")
-  (set-cdr! segment (delete! (list-ref (cdr segment) pos) (cdr segment)))
+  (set-children segment (delete (list-ref (children segment) pos) (children segment)))
   segment
 )
 

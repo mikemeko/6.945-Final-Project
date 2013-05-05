@@ -30,10 +30,6 @@
   (set-cdr! segment new-children)
 )
 
-(define (add-child segment new-child)
-  (set-cdr! segment (append (children segment) (list new-child)))
-)
-
 ; Takes in node and list of children segments
 ; Returns segment representation
 (define (new-segment current-node children)

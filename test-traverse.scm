@@ -29,7 +29,6 @@ translated into tree form:
   (pp "")
   (pp "Testing Tree Traversal")
 
-  #|
   (pp rss-example)
   ;(pp (delete rss-example 0))
 
@@ -61,5 +60,4 @@ translated into tree form:
   (pp (tag (walk rss-example 0)))
   (pp (attributes (walk rss-example 0)))
 
-  |#
 ))

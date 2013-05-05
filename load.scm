@@ -7,6 +7,7 @@
 (load "utils.scm")
 (load "io.scm")
 (load "node.scm")
+(load "structure.scm")
 (load "parser.scm")
 (load "tokenize.scm")
 (load "traverse.scm")

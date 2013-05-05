@@ -155,6 +155,28 @@
         (list-ref filtered-descendents pos)))
 
 ; ************************
+; SEGMENT CONSTRUCTORS
+; ************************
+
+; Takes in children
+; Returns root tree segment with those children
+(define (new-root children)
+ (new-segment (make-node '*the-root* '()))
+)
+
+; Takes in tag, attributes, and children
+; Returns tag tree segment with those properties
+(define (new-tag tag attributes children)
+  (new-segment (make-node tag attributes) children)
+)
+
+; Takes in text
+; Returns text tree segment 
+(define (new-text text)
+  (new-segment (make-node 'non-tag (cons "list" text)) '())
+)
+
+; ************************
 ; MODIFYING TREE STRUCTURE
 ; ************************
 

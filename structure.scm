@@ -30,7 +30,7 @@
   (set-cdr! segment new-children)
 )
 
-(define (new-relationship current-node children)
+(define (new-segment current-node children)
   (cons current-node children)
 )
 

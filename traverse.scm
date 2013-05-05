@@ -153,7 +153,7 @@
 ; Takes in children
 ; Returns root tree segment with those children
 (define (new-root children)
- (new-segment (make-node '*the-root* '()) '())
+ (new-segment (make-node '*the-root* '()) children)
 )
 
 ; Takes in tag, attributes, and children
@@ -165,7 +165,7 @@
 ; Takes in text
 ; Returns text tree segment 
 (define (new-text text)
-  (new-segment (make-node 'non-tag (cons "list" text)) '())
+  (new-segment (make-node 'non-tag (list (cons "text" text))) '())
 )
 
 ; ************************

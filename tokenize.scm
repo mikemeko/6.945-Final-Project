@@ -10,7 +10,8 @@
 ;;; tokenizes the given |text| into tokens, where a token is either a block of
 ;;;     text, called TAG, starting with a "<" and ending with a ">" or a block
 ;;;     of text that sits between two TAGs.
-(define (tokenize text)
+;;; This code is currently is NOT used anywhere
+(define (deprecated-tokenize text)
   (assert (string? text) "text has to be a string")
   (let ((tokens '()) (n (string-length text)))
     (define (append-token token)
@@ -61,7 +62,7 @@
 
 ;;; Splits |text| by the given |delimiter| and returns a list containing the parts.
 ;;; This code is currently is NOT used anywhere
-(define (split text delimiter)
+(define (deprecated-split text delimiter)
   (assert (string? text) "text has to be a string")
   (assert (char? delimiter) "delimiter has to be a char")
   (let ((parts '()) (n (string-length text)))
@@ -92,5 +93,69 @@
 > ("a" "b" "c")
 (split "<p a= 'hi'/>" #\ )
 > ("<p" "a=" "'hi'/>")
+|#
+
+;;; Returns a function that takes in a piece of text and returns a list of the tokens
+;;;    in the text, where the meaning of a token is given by the predicate |is-token?|
+(define (tokenizer is-token?)
+  (lambda (text)
+    (let ((tokens '()) (n (string-length text)))
+      (define (append-token token)
+        (set! tokens (append tokens (list token))))
+      (let loop-i ((i 0))
+        (if (= i n)
+            tokens
+            ;; store current ending index; largest found token; index to restart from
+            (let loop-j ((j (+ i 1)) (found-token 'none) (restart-index -1))
+              (if (> j n)
+                  (if (not (eq? found-token 'none))
+                      (begin (append-token found-token) tokens)
+                      (error "no token starting at index" i))
+                  (let ((substr (substring text i j)))
+                    (if (is-token? substr)
+                        (loop-j (+ j 1) substr j)
+                        (if (not (eq? found-token 'none))
+                            (begin (append-token found-token)
+                                   (loop-i restart-index))
+                            (loop-j (+ j 1) found-token restart-index)))))))))))
+
+;;; Predicate for XML tag tokens
+(define (is-tag-token? text)
+  (and (starts-with text "<") (ends-with text ">")))
+
+;;; Predicate for XML text tokens
+(define (is-text-token? text)
+  (and (not (string-find-next-char text #\<))
+       (not (string-find-next-char text #\>))))
+
+;;; Predicate for all XML tokens
+(define (is-xml-token? text)
+  (or (is-tag-token? text) (is-text-token? text)))
+
+;; Examples
+#|
+(define t (tokenizer is-xml-token?))
+(t "")
+> ()
+(t "x")
+> ("x")
+(t "<p>")
+> ("<p>")
+(t "<p>x</p>")
+> ("<p>" "x" "</p>")
+
+(define (all-the-same? text)
+  (let ((n (string-length text)))
+    (let loop ((i 0))
+      (if (= i n)
+          #t
+          (if (eq? (string-ref text 0) (string-ref text i))
+              (loop (+ i 1))
+              #f)))))
+(define t (tokenizer all-the-same?))
+(t "abc")
+> ("a" "b" "c")
+(t "aabbcc")
+> ("aa" "bb" "cc")
 |#
 

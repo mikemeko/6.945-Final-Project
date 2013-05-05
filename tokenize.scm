@@ -19,22 +19,27 @@
       (if (= i n)
           tokens
           (let* ((char-i (string-ref text i))
-                 (tag-start-i? (eq? char-i #\<)))
-            (let loop-j ((j (+ i 1)))
-              (if (= j n)
-                (if tag-start-i?
-                    (error "malformed text")
-                    (begin (append-token (substring text i j)) tokens))
-                (let* ((char-j (string-ref text j))
-                       (tag-start-j? (eq? char-j #\<))
-                       (tag-end-j? (eq? char-j #\>)))
-                  (cond ((and tag-start-i? tag-end-j?)
-                         (begin (append-token (substring text i (+ j 1)))
-                                (loop-i (+ j 1))))
-                        ((and (not tag-start-i?) tag-start-j?)
-                         (begin (append-token (substring text i j))
-                                (loop-i j)))
-                        (else (loop-j (+ j 1))))))))))))
+                 (tag-start-i? (eq? char-i #\<))
+                 (tag-end-i? (eq? char-i #\>)))
+            (if tag-end-i?
+              (error "malformed text")
+              (let loop-j ((j (+ i 1)))
+                (if (= j n)
+                  (if tag-start-i?
+                      (error "malformed text")
+                      (begin (append-token (substring text i j)) tokens))
+                  (let* ((char-j (string-ref text j))
+                         (tag-start-j? (eq? char-j #\<))
+                         (tag-end-j? (eq? char-j #\>)))
+                    (cond ((and (not tag-start-i?) tag-end-j?)
+                           (error "malformed text"))
+                          ((and tag-start-i? tag-end-j?)
+                           (begin (append-token (substring text i (+ j 1)))
+                                  (loop-i (+ j 1))))
+                          ((and (not tag-start-i?) tag-start-j?)
+                           (begin (append-token (substring text i j))
+                                  (loop-i j)))
+                          (else (loop-j (+ j 1)))))))))))))
 
 ;; Examples
 #|
@@ -49,7 +54,9 @@
 (tokenize "<p")
 > error: malformed text
 (tokenize "p>")
-> ("p>") ;; TODO(mikemeko): this should throw an error
+> error: malformed text
+(tokenize "<p>>")
+> error: malformed text
 |#
 
 ;;; Splits |text| by the given |delimiter| and returns a list containing the parts.

@@ -1,5 +1,4 @@
-(define tokenize (tokenizer is-xml-token?))
-(define root (make-tree (tokenize (read-file "example.xml"))))
+(define root (make-tree (xml-tokenize (read-file "example.xml"))))
 
 (pp (stringify rss-example))
 

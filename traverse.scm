@@ -47,14 +47,6 @@
       (list-transform-positive segments compare-tag))
     (filter-list-by-tag (children segment) tag))
 
-; Checks tree segment representation
-(define (check-rep segment)
-  ; currently quick, very non-comprehensive check of input format
-  (assert (list? segment) "input should be a tree segment")
-  (define (list-or-node? x)
-    (assert (or (node? x) (list? x)) "input should be a tree segment"))
-  (for-each list-or-node? segment))
-
 ; *****************
 ; NODE TYPES
 ; ******************

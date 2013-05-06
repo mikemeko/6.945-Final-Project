@@ -1,4 +1,3 @@
-(define tokenize (tokenizer is-xml-token?))
 (define root (xml-parse (xml-tokenize (read-file "example.xml"))))
 
 (if RUN-TESTS (begin

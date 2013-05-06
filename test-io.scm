@@ -19,9 +19,6 @@ translated into tree form:
 (define rss-example (new-root (list rss)))
 (define root (xml-parse (xml-tokenize (read-file "example.xml"))))
 
-(pp "stingify")
-(pp (stringify rss-example))
-
 (if RUN-TESTS (begin
  
  ;RSS EXAMPLE TEST Example Test

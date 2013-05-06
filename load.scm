@@ -4,10 +4,12 @@
       (extend-top-level-environment system-global-environment))
 (ge user-initial-environment)
 
+(define STRUCTURE-FILE "structure-definition-1.scm")
+
 (load "utils.scm")
 (load "io.scm")
 (load "node.scm")
-(load "structure-definition-2.scm")
+(load STRUCTURE-FILE)
 (load "interact.scm")
 (load "parser.scm")
 (load "xml-parser.scm")

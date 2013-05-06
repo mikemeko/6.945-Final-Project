@@ -10,6 +10,7 @@
 (load "structure.scm")
 (load "structure-extensions.scm")
 (load "parser.scm")
+(load "xml-parser.scm")
 (load "tokenizer.scm")
 (load "xml-tokenizer.scm")
 (load "traverse.scm")

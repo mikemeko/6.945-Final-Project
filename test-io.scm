@@ -1,5 +1,4 @@
-(define parser (make-tree start-tag? end-tag? self-terminating-tag? create-xml-node))
-(define root (parser (xml-tokenize (read-file "example.xml"))))
+(define root (xml-parse (xml-tokenize (read-file "example.xml"))))
 
 (pp (stringify rss-example))
 

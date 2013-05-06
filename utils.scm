@@ -8,6 +8,7 @@
   (if (not thing-that-should-be-true)
       (error message)))
 
+;;; TODO(mikemeko): remove :(
 ;;; Returns #t if |text| starts with |prefix|, #f otherwise
 (define (starts-with text prefix)
   (let ((text-n (string-length text))

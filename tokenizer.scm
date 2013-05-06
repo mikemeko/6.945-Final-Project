@@ -1,13 +1,5 @@
 ;; XML Tokenizer
 
-;;; Strips off the auxillary strings of a tag (including the outer brackets/slashes
-;;; Assumes the tag is of valid XML syntax
-;;; TODO(mikemeko): move elsewhere
-(define (get-element tag)
-    (let ((left (if (string-prefix? "</" tag) 2 1))
-          (right (if (string-suffix? "/>" tag) (- (string-length tag) 2) (- (string-length tag) 1))))
-        (substring tag left right)))
-
 ;;; Splits |text| by the given |delimiter| and returns a list containing the parts.
 ;;; This code is currently is NOT used anywhere
 ;;; TODO(mikemeko): delete?

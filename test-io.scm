@@ -1,4 +1,4 @@
-(define root (xml-parse (xml-tokenize (read-file "example.xml"))))
+(define root (xml-parse (xml-tokenize (read-file "example-2.xml"))))
 
 (pp "stingify")
 (pp (stringify rss-example))

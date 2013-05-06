@@ -14,6 +14,25 @@
     (and (string-prefix? "<" str)
          (string-suffix? "/>" str)))
 
+;;; Returns true if the argument is a comment tag, a la <!-- comment -->
+(define (xml-comment? str)
+  (and (string-prefix? "<!--" str)
+       (string-suffix? "-->" str)))
+
+;;; Strips off the auxillary strings of a tag (including the outer brackets/slashes
+;;; Assumes the tag is of valid XML syntax
+(define (get-element tag)
+   (define (strip-prefix tag)
+     (cond ((string-prefix? "<!--" tag) (string-tail tag 4))
+           ((string-prefix? "</" tag) (string-tail tag 2))
+           ((string-prefix? "<" tag) (string-tail tag 1))))
+    (define (strip-suffix tag)
+      (let ((n (string-length tag)))
+        (cond ((string-suffix? "-->" tag) (string-head tag (- n 3)))
+              ((string-suffix? "/>" tag) (string-head tag (- n 2)))
+              ((string-suffix? ">" tag) (string-head tag (- n 1))))))
+    (strip-prefix (strip-suffix tag)))
+
 ;;; Return a pair of the following form (type (key-1 . attr-1) (key-2 . attr-2) ...)
 ;;; Assumes the tag argument is a valid XML tag
 (define (get-type-and-attributes tag)
@@ -55,12 +74,15 @@
 
 ;;; Takes in a token and returns an XML node
 (define (create-xml-node token)
-    (if (and (not (xml-self-terminating-tag? token))
-             (not (xml-start-tag? token))
-             (not (xml-end-tag? token)))
-        (make-node 'non-tag (list (cons "text" token)))
-    (let ((parameters (get-type-and-attributes token)))
-         (make-node (car parameters) (cdr parameters)))))
+  (cond ((xml-comment? token)
+         (make-node 'non-tag (list (cons "comment" (get-element token)))))
+        ((and (not (xml-self-terminating-tag? token))
+              (not (xml-start-tag? token))
+              (not (xml-end-tag? token)))
+         (make-node 'non-tag (list (cons "text" token))))
+        (else
+         (let ((parameters (get-type-and-attributes token)))
+           (make-node (car parameters) (cdr parameters))))))
 
 ;;; Parser for xml tokens
 (define xml-parse (make-tree xml-start-tag? xml-end-tag? create-xml-node))

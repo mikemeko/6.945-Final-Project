@@ -63,7 +63,7 @@
          (make-node (car parameters) (cdr parameters)))))
 
 ;;; Parser for xml tokens
-(define xml-parse (make-tree xml-start-tag? xml-end-tag? xml-self-terminating-tag? create-xml-node))
+(define xml-parse (make-tree xml-start-tag? xml-end-tag? create-xml-node))
 
 ;; Examples
 #|

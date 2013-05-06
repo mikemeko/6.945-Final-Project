@@ -1,4 +1,10 @@
-;;; TODO(mikemeko): comment
+;;; Returns a procedure that, given a list of tokens, produces a tree.
+;;; This procedure works as follows. We keep a stack of found starting tags. When
+;;; we encounter an ending tag, we pop off the last element (which should be the matching
+;;; start tag), and add it as a child to the next element on the stack. Text/comment/self-terminating elements are treated as
+;;; ending tags that do not require popping the last element of the stack. At the end of the execution
+;;; every starting tag should have found a matching ending tag, and the only element on the
+;;; stack will the be the tree.
 (define (make-tree start? end? create-node-from-token)
     (define (make-tree-helper stack tokens)
         (if (= (length tokens) 0)
@@ -22,8 +28,3 @@
     (let ((root (make-node '*the-root* '())))
         (lambda (tokens)
             (make-tree-helper (list (new-segment root '())) tokens))))
-;; Examples
-#|
-;; TODO(mikemeko): examples?
-|#
-

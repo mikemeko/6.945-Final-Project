@@ -6,10 +6,10 @@
 ; Tree segments are represented as: (cons parent-node (list child1 child2)
 ; where child where child1 and child2 are cons pairs
 
-; There are three types of nodes: tags, non-tags, and the root
+; There are four types of nodes: tags, text, comments, and the root
 ; Tags have data that are a lists of cons pairs
 ; corresponding to attributes
-; Non-tags have corresponding text data in the same
+; Texts+comments have corresponding text data in the same
 ; form (e.g. (cons "text" "Hello World!"))
 ;
 ; USER-MODEL
@@ -54,13 +54,17 @@
 ; Returns #t if tag node, false otherwise
 (define (tag? segment)
   (not (or (equal? (tag segment) '*the-root*)
-  (equal? (tag segment) 'non-tag))))
+  (equal? (tag segment) 'text)
+  (equal? (tag segment) 'comment))))
 
 ; Returns #t if entire document, false otherwise
 (define (root? segment) (equal? (tag segment) '*the-root*))
 
-; Returns #t if text (non-tag) node, false otherwise
-(define (text? segment) (equal? (tag segment) 'non-tag))
+; Returns #t if text node, false otherwise
+(define (text? segment) (equal? (tag segment) 'text))
+
+; Returns #t if comment node, false otherwise
+(define (comment? segment) (equal? (tag segment) 'comment))
 
 ; ************************************
 ; MODIFYING AND ACCESSING CURRENT NODE
@@ -116,6 +120,12 @@
   (assert (text? segment) "not at text node")
   (cdr (find (lambda(x) (equal? (car x) "text")) (get-data (current segment)))))
 
+; Takes in a tree segment whose root is a comment node
+; Returns comment 
+(define (get-comment segment)
+  (assert (text? segment) "not a comment node")
+  (cdr (find (lambda(x) (equal? (car x) "comment")) (get-data (current segment)))))
+
 ; Takes in tree segment
 ; Returns how many children it has
 (define (count segment)
@@ -165,7 +175,13 @@
 ; Takes in text
 ; Returns text tree segment 
 (define (new-text text)
-  (new-segment (make-node 'non-tag (list (cons "text" text))) '())
+  (new-segment (make-node 'text (list (cons "text" text))) '())
+)
+
+; Takes in text
+; Returns comment tree segment 
+(define (new-comment text)
+  (new-segment (make-node 'comment (list (cons "comment" text))) '())
 )
 
 ; ************************
@@ -199,11 +215,22 @@
   (assert (tag? segment) "Not a tag segment")
   (string-append "</" (tag segment) ">"))
 
-; Takes in tree segment
-; Returns children as string of XML
+; Takes in comment segment
+; Returns opening comment string
 (define (stringify-children segment)
   (apply string-append 
       (map (lambda (x) (stringify x)) (children segment))))
+
+(define (stringify-comment-opening segment)
+  (assert (comment? segment) "Not a comment segment")
+  "<!--")
+
+; Takes in comment tree segment
+; Returns closing comment string
+(define (stringify-comment-closing segment)
+  (assert (comment? segment) "Not a comment segment")
+  "-->")
+
 
 ; Takes in tree segment
 ; Returns tree segment as string of XML
@@ -214,6 +241,10 @@
             (stringify-closing segment)))
         ((root? segment) 
             (stringify-children segment))
+        ((comment? segment) (string-append
+            (stringify-comment-opening segment)
+            (get-comment segment)
+            (stringify-comment-closing segment)))
         (else (get-text segment))))
 
 ; Takes in segment and filename

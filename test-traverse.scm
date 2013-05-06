@@ -33,13 +33,10 @@ translated into tree form:
   (pp rss-example)
 
   ;(pp (delete rss-example 0))
-
   ;(pp (add rss-example test))
   ;(pp (add rss-example (cons rss (list (cons test '())))))
   ;(pp (delete rss-example 2))
   ;(pp (delete rss-example 2))
-
-
 
   (pp (count rss-example))
   (pp (walk rss-example 0))
@@ -52,7 +49,6 @@ translated into tree form:
   ;(pp (get-attribute (walk-by-tag rss-example "rss" 0) "version"))
   ;(pp (remove-attribute (walk-by-tag rss-example "rss" 0) "version"))
   ;(pp (attributes (walk-by-tag rss-example "rss" 0)))
-  
   ;(pp (set-attribute (walk-by-tag rss-example "rss" 0) "version" "3.0"))
   ;(pp (attributes (walk-by-tag rss-example "rss" 0)))
   ;(pp (get-attribute (walk-by-tag rss-example "rss" 0) "version"))

@@ -26,11 +26,12 @@
      (cond ((string-prefix? "<!--" tag) (string-tail tag 4))
            ((string-prefix? "</" tag) (string-tail tag 2))
            ((string-prefix? "<" tag) (string-tail tag 1))))
-    (define (string-suffix tag)
-      (cond ((string-suffix? "-->" tag) (string-head tag (- (length tag) 3)))
-            ((string-suffix? "/>" tag) (string-head tag (- (length tag) 2)))
-            ((string-suffix? ">" tag) (string-head tag (- (length tag) 1)))))
-    (string-prefix (string-suffix tag)))
+    (define (strip-suffix tag)
+      (let ((n (string-length tag)))
+        (cond ((string-suffix? "-->" tag) (string-head tag (- n 3)))
+              ((string-suffix? "/>" tag) (string-head tag (- n 2)))
+              ((string-suffix? ">" tag) (string-head tag (- n 1))))))
+    (strip-prefix (strip-suffix tag)))
 
 ;;; Return a pair of the following form (type (key-1 . attr-1) (key-2 . attr-2) ...)
 ;;; Assumes the tag argument is a valid XML tag

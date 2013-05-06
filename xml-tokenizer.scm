@@ -2,8 +2,8 @@
 
 ;;; Predicate for XML tag tokens
 (define (is-tag-token? text)
-  (and (starts-with text "<")
-       (ends-with text ">")
+  (and (string-prefix? "<" text)
+       (string-suffix? ">" text)
        (is-text-token? (substring text 1 (- (string-length text) 1)))))
 
 ;;; Predicate for XML text tokens

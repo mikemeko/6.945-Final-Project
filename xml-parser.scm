@@ -74,12 +74,10 @@
 
 ;;; Takes in a token and returns an XML node
 (define (create-xml-node token)
-  (cond ((xml-comment? token)
-         (make-node 'non-tag (list (cons "comment" (get-element token)))))
-        ((and (not (xml-self-terminating-tag? token))
+  (cond ((xml-comment? token) (make-node 'comment (list (cons "comment" (get-element token))))) ((and (not (xml-self-terminating-tag? token))
               (not (xml-start-tag? token))
               (not (xml-end-tag? token)))
-         (make-node 'non-tag (list (cons "text" token))))
+         (make-node 'text (list (cons "text" token))))
         (else
          (let ((parameters (get-type-and-attributes token)))
            (make-node (car parameters) (cdr parameters))))))

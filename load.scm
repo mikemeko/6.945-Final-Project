@@ -18,4 +18,5 @@
 (load "traverse.scm")
 
 (load "test-traverse.scm")
-;(load "test-io.scm")
+(load "test-io.scm")
+

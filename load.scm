@@ -8,7 +8,7 @@
 
 (load "utils.scm")
 (load "io.scm")
-(load "node.scm")
+(load "xml-node.scm")
 (load STRUCTURE-FILE)
 (load "interact.scm")
 (load "parser.scm")

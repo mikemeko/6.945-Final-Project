@@ -11,12 +11,6 @@
 ; call these procedures to access anything dependent on
 ; the tree representation.
 ;
-; NOTES ON TREE REPRESENTATION:
-;
-; Tree segments are represented as: (cons parent-node (list child1 child2)
-; where child where child1 and child2 are cons pairs (relationships aka
-; segments)
-
 ; ****************************************************
 
 (define-record-type relationship

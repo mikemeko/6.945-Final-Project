@@ -10,7 +10,9 @@
 (load "structure-definition-2.scm")
 (load "interact.scm")
 (load "parser.scm")
-(load "tokenize.scm")
+(load "xml-parser.scm")
+(load "tokenizer.scm")
+(load "xml-tokenizer.scm")
 (load "traverse.scm")
 
 (load "test-traverse.scm")

@@ -1,4 +1,4 @@
-;; XML Tokenizer
+;; Tokenizer
 
 ;;; Returns a function that takes in a piece of text and returns a list of the tokens
 ;;;    in the text, where the meaning of a token is given by the predicate |is-token?|

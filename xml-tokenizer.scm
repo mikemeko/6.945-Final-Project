@@ -41,7 +41,8 @@
 ;;; tokenizes the given |text| into tokens, where a token is either a block of
 ;;;     text, called TAG, starting with a "<" and ending with a ">" or a block
 ;;;     of text that sits between two TAGs.
-;;; This code is currently is NOT used anywhere
+;;; This code is currently is NOT used anywhere for it is a poor implementation of
+;;;    what we want, as this tokenizer is not generalizable
 (define (deprecated-xml-tokenize text)
   (assert (string? text) "text has to be a string")
   (let ((tokens '()) (n (string-length text)))

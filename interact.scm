@@ -1,6 +1,19 @@
-; ************************
-; MODIFYING TREE STRUCTURE
-; ************************
+; ***********************************************************
+; Abstracts away representation of relationships between nodes
+
+; This file defines the representation of tree
+; structure. These procedures deal only with the structure
+; of tree (parent-child relationship between nodes) and not 
+; with nodes themselves.  This file is XML-independent. 
+
+; Procedures in all other files
+; should be independent of the tree representation and
+; call these procedures to access anything dependent on
+; the tree representation.
+;
+; ****************************************************
+
+(load STRUCTURE-FILE)
 
 ; Takes in two tree segments
 ; Adds one as child of other

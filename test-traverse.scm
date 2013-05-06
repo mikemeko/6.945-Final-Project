@@ -43,7 +43,7 @@ translated into tree form:
   (pp "Testing Tree Traversal")
 
   (pp rss-example)
-  (stringify rss-example)
+  ;(stringify rss-example)
 
   #|
   ;(pp (delete rss-example 0))

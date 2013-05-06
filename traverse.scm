@@ -79,26 +79,26 @@
 ; Returns a list of its attributes (not values) its root
 (define (attributes segment)
   (assert (tag? segment) "only tags have attributes")
-  (map (lambda (x) (current x)) (get-data (current segment))))
+  (map (lambda (x) (car x)) (get-data (current segment))))
 
 ; Takes in tree segment and attributes
 ; Returns #t if tree segment root has that attribute
 (define (attribute? segment attribute)
-  (if (find (lambda(x) (equal? (current x) attribute)) (get-data (current segment))) #t #f))
+  (if (find (lambda(x) (equal? (car x) attribute)) (get-data (current segment))) #t #f))
 
 ; Takes in tree segment and attribute
 ; Returns value of specified attribute 
 (define (get-attribute segment attribute)
   (assert (tag? segment) "only tags have attributes")
   (assert (attribute? segment attribute) "doesn't have attribute")
-  (cdr (find (lambda(x) (equal? (current x) attribute)) (get-data (current segment)))))
+  (cdr (find (lambda(x) (equal? (car x) attribute)) (get-data (current segment)))))
 
 ; Removes attribute if it exists
 ; Does nothing otherwise
 (define (remove-attribute segment attribute)
   (if (attribute? segment attribute)
   (set-data (current segment)
-    (remove (lambda(x) (equal? (current x) attribute)) 
+    (remove (lambda(x) (equal? (car x) attribute)) 
       (get-data (current segment))))))
 
 ; Takes in tree segment, attribute, and value
@@ -114,7 +114,7 @@
 ; Returns text
 (define (get-text segment)
   (assert (text? segment) "not at text node")
-  (cdr (find (lambda(x) (equal? (current x) "text")) (get-data (current segment)))))
+  (cdr (find (lambda(x) (equal? (car x) "text")) (get-data (current segment)))))
 
 ; Takes in tree segment
 ; Returns how many children it has

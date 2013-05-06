@@ -7,7 +7,7 @@
 (load "utils.scm")
 (load "io.scm")
 (load "node.scm")
-(load "structure-definition-1.scm")
+(load "structure-definition-2.scm")
 (load "interact.scm")
 (load "parser.scm")
 (load "tokenize.scm")

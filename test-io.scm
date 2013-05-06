@@ -1,3 +1,23 @@
+#|
+
+The following test corresponds to the below example 
+translated into tree form:
+
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<rss version="2.0">
+
+<channel>
+<title>W3Schools Home Page</title>
+</channel>
+
+</rss>
+|#
+
+(define text (new-text "W3Schools Home Page"))
+(define title (new-tag "title" '() (list text)))
+(define channel (new-tag "channel" '() (list title)))
+(define rss (new-tag "rss" (list (cons "version" "\"2.0\"")) (list channel)))
+(define rss-example (new-root (list rss)))
 (define root (xml-parse (xml-tokenize (read-file "example.xml"))))
 
 (pp "stingify")
@@ -7,7 +27,7 @@
  
  ;RSS EXAMPLE TEST Example Test
  (assert (equal? (stringify rss-example) 
-  "<xml version=\"1.0\" encoding=\"ISO-8859-1\"></xml><rss version=\"2.0\"><channel><title>W3Schools Home Page</title></channel></rss>") 
+  "<rss version=\"2.0\"><channel><title>W3Schools Home Page</title></channel></rss>") 
   "Fails RSS Example")
 
   ; END-TO-END TEST

@@ -14,6 +14,5 @@
 (load "xml-tokenizer.scm")
 (load "xml-traverse.scm")
 
-(load "test-traverse.scm")
 (load "test-io.scm")
 

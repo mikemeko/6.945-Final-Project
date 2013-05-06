@@ -1,24 +1,3 @@
-#|
-
-The following test corresponds to the below example 
-translated into tree form:
-
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<rss version="2.0">
-
-<channel>
-<title>W3Schools Home Page</title>
-</channel>
-
-</rss>
-|#
-
-(define text (new-text "W3Schools Home Page"))
-(define title (new-tag "title" '() (list text)))
-(define channel (new-tag "channel" '() (list title)))
-(define rss (new-tag "rss" (list (cons "version" "\"2.0\"")) (list channel)))
-(define xml (new-tag "xml" (list (cons "version" "\"1.0\"") (cons "encoding" "\"ISO-8859-1\"")) '()))
-(define rss-example (new-root (list xml rss)))
 
 ;(define xml (new-tag "xml" (list (cons "version" "\"1.0\"") (cons "encoding" "\"ISO-8859-1\"")) '()))
 ;(define rss-example (new-root (list xml)))

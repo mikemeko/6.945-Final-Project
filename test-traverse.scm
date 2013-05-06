@@ -13,6 +13,7 @@ translated into tree form:
 </rss>
 |#
 
+#|
 (define root (make-node '*the-root* '()))
 (define xml (make-node "xml" (list (cons "version" "\"1.0\"") (cons "encoding" "\"ISO-8859-1\""))))  ; temp
 (define rss (make-node "rss" (list (cons "version" "\"2.0\""))))
@@ -25,11 +26,26 @@ translated into tree form:
 (define test-node (make-node "channel" (list "lady" "gaga")))
 (define test (cons test-node '()))
 
+
+(define rss-example (new-root (list (new-tag "xml" (list (cons "version" "\"1.0\"") (cons "encoding" "\"ISO-8859-1\""))) (new-tag "rss"  (list (cons "version" "\"2.0\"")))))
+|#
+
+(define text (new-text "W3Schools Home Page"))
+(define title (new-tag "title" '() (list text)))
+(define channel (new-tag "channel" '() (list title)))
+(define rss (new-tag "rss" (list (cons "version" "\"2.0\"")) (list channel)))
+(define xml (new-tag "xml" (list (cons "version" "\"1.0\"") (cons "encoding" "\"ISO-8859-1\"")) '()))
+(define rss-example (new-root (list xml rss)))
+
+
 (if RUN-TESTS (begin
   (pp "")
   (pp "Testing Tree Traversal")
 
   (pp rss-example)
+  ;(stringify rss-example)
+
+  #|
   ;(pp (delete rss-example 0))
 
   ;(pp (add rss-example test))
@@ -59,5 +75,7 @@ translated into tree form:
   ;(modify-tag (walk-by-tag rss-example "rss" 0) "hi")
   (pp (tag (walk rss-example 0)))
   (pp (attributes (walk rss-example 0)))
+  |#
+
 
 ))
